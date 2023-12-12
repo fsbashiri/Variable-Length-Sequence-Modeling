@@ -96,7 +96,7 @@ Feel free to reach out if you have any questions or need assistance. Happy codin
 Our code is licensed under a GPL version 3 license (see the license file for detail).
 
 
-##Citation
+## Citation
 
 Please view our publication on JAMIA:
 
