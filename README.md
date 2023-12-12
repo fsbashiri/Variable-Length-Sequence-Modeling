@@ -1,92 +1,107 @@
-# Variable Length Time Series Structured Data
+# Variable-Length Sequence Modeling
+
+Welcome to the repository dedicated to training deep learning models for variable-length time series data extracted from electronic health records, with a focus on predicting clinical outcomes. If you're interested in understanding the details of this work, you can explore the accompanying paper [here-TBD](link-to-paper).
 
 
+## Requirements
 
-## Getting started
+- Python3
+- For python dependencies, see [requirements.txt](https://git.doit.wisc.edu/smph-public/dom/uw-icu-data-science-lab-public/variable-length-sequence-modeling/-/blob/main/requirements.txt)
+- R libraries:
+  - rms
+  - pROC
+  
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Usage Guide
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+Follow the following steps for running the code on your data:
 
-## Add your files
+**1. Clone the Repository**
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
+After cloning the repository, navigate to the project folder using the command line:
+```bash
+cd path/to/project/directory
 ```
-cd existing_repo
-git remote add origin https://git.doit.wisc.edu/smph-public/dom/uw-icu-data-science-lab-public/variable-length-time-series-structured-data.git
-git branch -M main
-git push -uf origin main
+
+**2. Install Dependencies**
+
+Ensure you have all the required dependencies by executing the following command:
+```bash
+pip install -r requirements.txt
 ```
 
-## Integrate with your tools
+**3. Dataset Formatting**
 
-- [ ] [Set up project integrations](https://git.doit.wisc.edu/smph-public/dom/uw-icu-data-science-lab-public/variable-length-time-series-structured-data/-/settings/integrations)
+Convert your dataset into a format compatible with the general pipeline:
+```bash
+python Code/Checkup_routines/examine_datasets.py
+```
 
-## Collaborate with your team
+For detailed information and options, refer to the [Checkup Routines README](https://git.doit.wisc.edu/smph-public/dom/uw-icu-data-science-lab-public/variable-length-sequence-modeling/-/blob/main/Code/Checkup_routines/README.md).
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+**4. Run the Pipeline**
 
-## Test and Deploy
+Execute the pipeline by running the following command:
+```bash
+python Code/VL020_train.py -m Model -t path/to/train/csv/file -e path/to/evaluation/csv/file -v path/to/validation/csv/file
+```
 
-Use the built-in continuous integration in GitLab.
+Explore additional options in the [Important Notes](https://git.doit.wisc.edu/smph-public/dom/uw-icu-data-science-lab-public/variable-length-sequence-modeling#important-notes) section for a comprehensive understanding of available functionalities.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
 
-***
+## Important Notes
 
-# Editing this README
+Here are important notes to consider before running the code:
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+1. For detailed information about input arguments, type the following command in the command line:
+   ```bash
+   python Code/VL020_train.py -h
+   ```
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+2. Before running the code, review and edit the **config** dictionary defined in `VL099_utils.py` as needed.
 
-## Name
-Choose a self-explaining name for your project.
+3. **Training and Test Datasets:**
+   - Provide datasets in two ways:
+     1. Direct the code to [.csv] files using `-t path/to/train/csv/file` and `-e path/to/evaluation/csv/file` arguments.
+     2. Direct the code to [.pkl] objects containing derivation and evaluation data objects. Ensure that **config['save_pkl']** is set to True during the previous saving.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+4. **Validation Dataset:**
+   - Provide the validation dataset in two ways:
+     1. Specify a [.csv] file using the `-v path/to/valid/csv/file` input argument.
+     2. Leave the `-v` input argument empty to enable the code to split the training dataset into training and validation datasets based on the **validation_p** key in the **config** dictionary.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+5. **Data Pre-processing:**
+   - Select the data pre-processing method in the **config** dictionary from the list below: 
+     1. "norm" -> Normalization: Transforming data to the range [0, 1]. 
+     2. "std" -> Standardization: Adjusting data to have zero mean and unit variance.
+     3. "ple-dt" -> Piece-wise Linear Encoding with Decision Trees (PLE-DT): A specialized encoding technique.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+6. **Models:**
+   - Select the model architecture you want to train with the `-m` input argument from the list below:
+     1. "lstm" -> LSTM/GRU 
+     2. "tdcnn" -> TDW-CNN
+     3. "tcn" -> TCN
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+7. **Resuming Training:**
+   - Resume an unfinished training pipeline from the last stored checkpoint by directing the code to the log directory using the **config['log_path']** and **config['log_folder']** keys.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+8. **RTDL Remote Repository:**
+   - The RTDL remote repository is required for piecewise linear encoding of predictor variables. Download it [here](https://github.com/Yura52/rtdl).
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Feel free to reach out if you have any questions or need assistance. Happy coding!
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
 
 ## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Our code is licensed under a GPL version 3 license (see the license file for detail).
+
+
+##Citation
+
+Please view our publication on JAMIA:
+
+If you find our project useful, please consider citing our work:
+```
+@article{
+}
+```
