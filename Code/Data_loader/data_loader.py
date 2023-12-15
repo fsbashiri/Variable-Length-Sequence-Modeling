@@ -4,11 +4,17 @@ Branch:
 Author: Azi Bashiri
 Last Modified: Mar. 2023
 Description:
-Convert datasets into a compatible format prior to using the data_loader with the Checkup_routines/examine_datasets.py
-script. Acceptable input data is a .csv file that contains only the following columns:
-    - study_id: representative of patient/encounter id
-    - time: representative of hour block
-    - outcome: outcome column
+The 'DataLoader' object class serves as a component for efficient data handling and loading within the pipeline. This
+class encapsulates functionality for reading data from various sources, merging them into one structured data,
+performing necessary preprocessing steps, and organizing it into a format compatible with the downstream pipeline.
+
+Notes:
+1. Before using the data_loader, convert [.csv] files to a compatible format using the Checkup_routines/examine_datasets.py
+script.
+2. Acceptable input data is [.csv] files that contain only the following columns:
+    - 'study_id': representative of patient/encounter id
+    - 'time': representative of time
+    - 'outcome': target column
     - predicting variables: any column other than those mentioned above is a predicting variable
 """
 import os

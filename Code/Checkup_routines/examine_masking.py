@@ -6,6 +6,7 @@ Description: A python script to examine padding and masking.
                 It creates two test samples: one with n_ts time steps, and another one that is a copy of the first
                 sample with one extra time step filled with mask_value. It can be pre-padded or post-padded. Both
                 samples are taken in by a model, which outputs predictions. These predictions are compared and examined.
+                If masking is working correctly the predictions for the masked and unmasked sequences are the same.
                 Masking can only be tested when pred_type is set to seq2seq.
 Usage:  1. Review definitions right below import packages and modify them as needed
         2. In a terminal change directory to the project folder.

@@ -226,9 +226,9 @@ if __name__ == '__main__':
 
     # load model
     if model_choice == 'mdl_lstm_gru.py':
-        from Code.Models.mdl_lstm_gru import create_model, log_string_search_space_summary, CausalSelfAttention
+        from Code.Models.mdl_lstm_gru import create_model, log_string_search_space_summary
     elif model_choice == 'mdl_tcn.py':
-        from Code.Models.mdl_tcn import create_model, log_string_search_space_summary, MyTCN, CausalSelfAttention2
+        from Code.Models.mdl_tcn import create_model, log_string_search_space_summary, MyTCN
     elif model_choice == 'mdl_tdcnn.py':
         from Code.Models.mdl_tdcnn import create_model, log_string_search_space_summary
 

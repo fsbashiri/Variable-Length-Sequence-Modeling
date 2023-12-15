@@ -1,7 +1,7 @@
 .libPaths(c('/Path/to/shared_R/library/', .libPaths()))
 
 library("pROC")  # ROC-AUC and 95% CI
-library("PRROC")  # PR-AUC
+# library("PRROC")  # PR-AUC
 library("optparse")
 
 # specify desired options in a list
@@ -31,7 +31,7 @@ for (c in cnames)
   cat("predictor: ", c, "\n")
   print(auc(data$y_true, data[[c]]))
   print(ci.auc(data$y_true, data[[c]]))
-  print(pr.curve(data[[c]][data$y_true==1], data[[c]][data$y_true==0]))
+#   print(pr.curve(data[[c]][data$y_true==1], data[[c]][data$y_true==0]))
 }
 
 # get the p-value by comparing opt$pred prediction with other predictions

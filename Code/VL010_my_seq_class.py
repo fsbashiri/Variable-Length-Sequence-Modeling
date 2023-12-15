@@ -9,8 +9,7 @@ Description: Python class VarLenSequence. It inherits properties of tensorflow.k
     focus in this project).
 References:
     1. https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly
-    2. Anoop's code for eCART4_RNNV4
-    3. https://towardsdatascience.com/neural-network-for-input-of-variable-length-using-tensorflow-timedistributed-wrapper-a45972f4da51
+    2. https://towardsdatascience.com/neural-network-for-input-of-variable-length-using-tensorflow-timedistributed-wrapper-a45972f4da51
 """
 import numpy as np
 from keras.utils import Sequence, pad_sequences
